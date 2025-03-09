@@ -3,6 +3,8 @@ package com.jesushz.doodlekong.di
 import com.jesushz.doodlekong.core.data.network.HttpClientFactory
 import com.jesushz.doodlekong.setup.data.network.KtorSetupRemoteDataSource
 import com.jesushz.doodlekong.setup.data.network.SetupRemoteDataSource
+import com.jesushz.doodlekong.setup.data.repository.DefaultSetupRepository
+import com.jesushz.doodlekong.setup.domain.repository.SetupRepository
 import com.jesushz.doodlekong.util.DispatcherProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -30,5 +32,6 @@ val sharedModule = module {
     single { HttpClientFactory.create(get()) }
 
     singleOf(::KtorSetupRemoteDataSource).bind<SetupRemoteDataSource>()
+    singleOf(::DefaultSetupRepository).bind<SetupRepository>()
 
 }
