@@ -57,7 +57,10 @@ kotlin {
             implementation(libs.bundles.ktor)
             implementation(libs.datastore)
             implementation(libs.datastore.preferences)
-            implementation(libs.kottie)
+            implementation(libs.compottie)
+            implementation(libs.compottie.dot)
+            implementation(libs.compottie.network)
+            implementation(libs.compottie.resources)
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)
