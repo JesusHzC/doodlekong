@@ -61,6 +61,7 @@ kotlin {
             implementation(libs.compottie.dot)
             implementation(libs.compottie.network)
             implementation(libs.compottie.resources)
+            implementation(libs.kermit)
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)
