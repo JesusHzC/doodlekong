@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.jesushz.doodlekong.username.presentation.UsernameScreenRoot
+import com.jesushz.doodlekong.setup.presentation.username.presentation.UsernameScreenRoot
 import com.jesushz.doodlekong.util.Route
 
 @Composable

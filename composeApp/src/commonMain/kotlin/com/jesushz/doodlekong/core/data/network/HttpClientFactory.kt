@@ -1,4 +1,4 @@
-package com.jesushz.doodlekong.core.data
+package com.jesushz.doodlekong.core.data.network
 
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine

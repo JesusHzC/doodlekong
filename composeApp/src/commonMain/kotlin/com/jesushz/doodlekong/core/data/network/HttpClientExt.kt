@@ -1,4 +1,4 @@
-package com.jesushz.doodlekong.core.data
+package com.jesushz.doodlekong.core.data.network
 
 import com.jesushz.doodlekong.core.domain.DataError
 import com.jesushz.doodlekong.core.domain.Result

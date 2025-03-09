@@ -1,4 +1,4 @@
-package com.jesushz.doodlekong.username.presentation
+package com.jesushz.doodlekong.setup.presentation.username.presentation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
