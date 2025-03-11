@@ -1,4 +1,4 @@
-package com.jesushz.doodlekong.setup.presentation.username.components
+package com.jesushz.doodlekong.setup.presentation.components
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.LocalTextStyle
@@ -18,17 +18,17 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun UsernameTextField(
+fun DoodleKongTextField(
     modifier: Modifier = Modifier,
-    username: String,
+    text: String,
     label: String,
-    onUsernameChange: (String) -> Unit
+    onTextChanged: (String) -> Unit
 ) {
     var isFocused by remember { mutableStateOf(false) }
 
     OutlinedTextField(
-        value = username,
-        onValueChange = onUsernameChange,
+        value = text,
+        onValueChange = onTextChanged,
         label = {
             Text(
                 text = label,

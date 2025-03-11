@@ -1,7 +1,7 @@
 package com.jesushz.doodlekong
 
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Typography
 import androidx.compose.material.MaterialTheme
@@ -55,7 +55,7 @@ fun App() {
                 )
             },
             modifier = Modifier
-                .navigationBarsPadding()
+                .systemBarsPadding()
         ) {
             NavigationRoot(
                 navController = navController,

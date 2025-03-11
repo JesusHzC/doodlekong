@@ -3,12 +3,10 @@ package com.jesushz.doodlekong.setup.presentation.username
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
@@ -22,8 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jesushz.doodlekong.core.presentation.ObserveAsEvents
+import com.jesushz.doodlekong.setup.presentation.components.DoodleKongTextField
 import com.jesushz.doodlekong.setup.presentation.username.components.NextButton
-import com.jesushz.doodlekong.setup.presentation.username.components.UsernameTextField
 import com.jesushz.doodlekong.util.Constants
 import doodlekong.composeapp.generated.resources.Res
 import doodlekong.composeapp.generated.resources.choose_a_username
@@ -115,12 +113,12 @@ private fun UsernameScreen(
                 fontSize = 28.sp
             )
             Spacer(modifier = Modifier.height(8.dp))
-            UsernameTextField(
-                username = state.username,
+            DoodleKongTextField(
+                text = state.username,
                 label = stringResource(Res.string.username),
                 modifier = Modifier
                     .fillMaxWidth(),
-                onUsernameChange = {
+                onTextChanged = {
                     onAction(UsernameAction.OnUsernameChanged(it))
                 }
             )

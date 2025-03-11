@@ -45,4 +45,5 @@
     <string name="no_rooms_found">No Rooms Found :(</string>
     <string name="listening">Listening...</string>
     <string name="create">Create</string>
+    <string name="refresh">Refresh</string>
 </resources>
