@@ -6,10 +6,10 @@ import com.jesushz.doodlekong.core.domain.Result
 
 interface SetupRepository {
 
-    suspend fun createRoom(room: Room): Result<Unit, DataError.Remote>
+    suspend fun createRoom(room: Room): Result<Unit, DataError>
 
     suspend fun getRooms(searchQuery: String): Result<List<Room>, DataError.Remote>
 
-    suspend fun joinRoom(username: String, roomName: String): Result<Unit, DataError.Remote>
+    suspend fun joinRoom(username: String, roomName: String): Result<Unit, DataError>
 
 }

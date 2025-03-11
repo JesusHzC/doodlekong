@@ -5,6 +5,8 @@ struct iOSApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .ignoresSafeArea(.keyboard)
+                .ignoresSafeArea(.container)
         }
     }
 }

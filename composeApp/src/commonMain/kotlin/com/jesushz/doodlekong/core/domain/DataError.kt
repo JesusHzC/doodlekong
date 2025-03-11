@@ -14,4 +14,6 @@ sealed interface DataError: Error {
         DISK_FULL,
         UNKNOWN
     }
+
+    class ApiError(val message: String): DataError
 }

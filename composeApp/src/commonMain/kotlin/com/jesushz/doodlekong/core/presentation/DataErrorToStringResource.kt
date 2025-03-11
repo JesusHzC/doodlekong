@@ -10,6 +10,10 @@ import doodlekong.composeapp.generated.resources.error_too_many_requests
 import doodlekong.composeapp.generated.resources.error_unknown
 
 fun DataError.toUiText(): UiText {
+    if (this is DataError.ApiError) {
+        return UiText.DynamicString(this.message)
+    }
+
     val stringRes = when(this) {
         DataError.Local.DISK_FULL -> Res.string.error_disk_full
         DataError.Local.UNKNOWN -> Res.string.error_unknown
@@ -19,6 +23,7 @@ fun DataError.toUiText(): UiText {
         DataError.Remote.SERVER -> Res.string.error_unknown
         DataError.Remote.SERIALIZATION -> Res.string.error_serialization
         DataError.Remote.UNKNOWN -> Res.string.error_unknown
+        is DataError.ApiError -> Res.string.error_unknown
     }
 
     return UiText.StringResourceId(stringRes)
