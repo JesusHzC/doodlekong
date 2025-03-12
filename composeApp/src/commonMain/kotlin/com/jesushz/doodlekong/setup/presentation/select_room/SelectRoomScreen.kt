@@ -11,16 +11,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.jesushz.doodlekong.core.presentation.ObserveAsEvents
 import com.jesushz.doodlekong.setup.presentation.components.DoodleKongTextField
 import com.jesushz.doodlekong.setup.presentation.select_room.components.EmptyRooms
 import com.jesushz.doodlekong.setup.presentation.select_room.components.LoadingAnimation
@@ -31,18 +35,46 @@ import doodlekong.composeapp.generated.resources.ic_refresh
 import doodlekong.composeapp.generated.resources.or
 import doodlekong.composeapp.generated.resources.refresh
 import doodlekong.composeapp.generated.resources.search_for_rooms
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun SelectRoomScreenRoot(
-    viewModel: SelectRoomViewModel = koinViewModel()
+    viewModel: SelectRoomViewModel = koinViewModel(),
+    snackBarHostState: SnackbarHostState,
+    onNavigateToCreateRoom: (username: String) -> Unit,
+    onNavigateToDrawingScreen: (username: String, roomName: String) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val scope = rememberCoroutineScope()
+    ObserveAsEvents(
+        flow = viewModel.event
+    ) { event ->
+        when (event) {
+            is SelectRoomEvent.OnError -> {
+                scope.launch {
+                    snackBarHostState.showSnackbar(
+                        message = event.message.asDynamicString()
+                    )
+                }
+            }
+            is SelectRoomEvent.OnJoinRoom -> {
+                onNavigateToDrawingScreen(event.username, event.roomName)
+            }
+        }
+    }
     SelectRoomScreen(
         state = state,
-        onAction = viewModel::onAction
+        onAction = { action ->
+            when (action) {
+                SelectRoomAction.OnCreateRoomClicked -> {
+                    onNavigateToCreateRoom(state.username)
+                }
+                else -> viewModel.onAction(action)
+            }
+        }
     )
 }
 
@@ -71,10 +103,16 @@ private fun SelectRoomScreen(
                 }
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Icon(
-                painter = painterResource(Res.drawable.ic_refresh),
-                contentDescription = stringResource(Res.string.refresh)
-            )
+            IconButton(
+                onClick = {
+                    onAction(SelectRoomAction.OnReloadClicked)
+                }
+            ) {
+                Icon(
+                    painter = painterResource(Res.drawable.ic_refresh),
+                    contentDescription = stringResource(Res.string.refresh)
+                )
+            }
         }
         Spacer(modifier = Modifier.height(8.dp))
         when {

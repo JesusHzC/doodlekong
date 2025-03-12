@@ -13,4 +13,11 @@ object Constants {
     const val ERROR_USERNAME_TOO_SHORT = "The minimum username length is $MIN_USERNAME_LENGTH characters."
     const val ERROR_USERNAME_TOO_LONG = "The maximum username length is $MAX_USERNAME_LENGTH characters."
 
+    const val ERROR_DISK_FULL = "Oops, it seems like your disk is full."
+    const val ERROR_UNKNOWN = "Oops, something went wrong."
+    const val ERROR_REQUEST_TIMEOUT = "The request timed out."
+    const val ERROR_NO_INTERNET = "Couldn't reach server, please check your internet connection."
+    const val ERROR_TOO_MANY_REQUESTS = "Your quota seems to be exceeded."
+    const val ERROR_SERIALIZATION = "Couldn't parse data."
+
 }

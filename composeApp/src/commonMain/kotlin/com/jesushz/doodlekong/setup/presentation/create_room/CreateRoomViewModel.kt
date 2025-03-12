@@ -1,0 +1,30 @@
+package com.jesushz.doodlekong.setup.presentation.create_room
+
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.navigation.toRoute
+import com.jesushz.doodlekong.util.Route
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+
+class CreateRoomViewModel(
+    savedStateHandle: SavedStateHandle
+): ViewModel() {
+
+    private val _state = MutableStateFlow(CreateRoomState())
+    val state = _state.asStateFlow()
+
+    init {
+        _state.update {
+            it.copy(
+                username = savedStateHandle.toRoute<Route.CreateRoom>().username
+            )
+        }
+    }
+
+    fun onAction(action: CreateRoomAction) {
+
+    }
+
+}

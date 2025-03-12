@@ -19,6 +19,10 @@ sealed interface Route {
     data class SelectRoom(val username: String): Route
 
     @Serializable
-    data object CreateRoom: Route
+    data class CreateRoom(val username: String): Route
+
+    // Routes Drawing Graph
+    @Serializable
+    data class Drawing(val username: String, val roomName: String): Route
 
 }

@@ -1,5 +1,8 @@
 package com.jesushz.doodlekong.core.data.network.ws
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Room(
     val name: String,
     val maxPlayers: Int,

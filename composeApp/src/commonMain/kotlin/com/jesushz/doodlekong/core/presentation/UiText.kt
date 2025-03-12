@@ -18,4 +18,11 @@ sealed interface UiText {
             is StringResourceId -> stringResource(resource = id, formatArgs = args)
         }
     }
+
+    fun asDynamicString(): String {
+        return when(this) {
+            is DynamicString -> value
+            else -> ""
+        }
+    }
 }

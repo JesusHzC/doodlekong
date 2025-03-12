@@ -7,5 +7,6 @@ sealed interface SelectRoomAction {
     data class OnSearchRoomChanged(val searchRoom: String) : SelectRoomAction
     data object OnCreateRoomClicked : SelectRoomAction
     data class OnRoomClicked(val room: Room) : SelectRoomAction
+    data object OnReloadClicked : SelectRoomAction
 
 }
