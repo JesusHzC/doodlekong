@@ -79,7 +79,7 @@ private fun NavGraphBuilder.drawingGraph(
     snackBarHostState: SnackbarHostState
 ) {
     navigation<Route.DrawingGraph>(
-        startDestination = Route.Drawing
+        startDestination = Route.Drawing(username = "", roomName = "")
     ) {
         composable<Route.Drawing> {
             DrawingScreenRoot()
