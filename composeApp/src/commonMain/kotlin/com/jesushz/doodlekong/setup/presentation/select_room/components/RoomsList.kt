@@ -41,6 +41,7 @@ fun RoomsList(
                 onRoomClick = { onRoomClick(room) },
                 modifier = Modifier
                     .fillMaxWidth()
+                    .animateItem()
             )
         }
     }

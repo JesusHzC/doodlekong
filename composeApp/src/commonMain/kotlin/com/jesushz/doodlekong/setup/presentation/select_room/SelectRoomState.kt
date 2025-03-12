@@ -6,4 +6,5 @@ data class SelectRoomState(
     val username: String = "",
     val searchRoom: String = "",
     val rooms: List<Room> = emptyList(),
+    val isLoading: Boolean = true,
 )

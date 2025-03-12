@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jesushz.doodlekong.setup.presentation.components.DoodleKongTextField
 import com.jesushz.doodlekong.setup.presentation.select_room.components.EmptyRooms
+import com.jesushz.doodlekong.setup.presentation.select_room.components.LoadingAnimation
 import com.jesushz.doodlekong.setup.presentation.select_room.components.RoomsList
 import doodlekong.composeapp.generated.resources.Res
 import doodlekong.composeapp.generated.resources.create_room
@@ -77,6 +78,13 @@ private fun SelectRoomScreen(
         }
         Spacer(modifier = Modifier.height(8.dp))
         when {
+            state.isLoading -> {
+                LoadingAnimation(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                )
+            }
             state.rooms.isNotEmpty() -> {
                 AnimatedVisibility(
                     visible = state.rooms.isNotEmpty(),
@@ -89,7 +97,7 @@ private fun SelectRoomScreen(
                         modifier = Modifier
                             .fillMaxSize(),
                         onRoomClick = {
-
+                            onAction(SelectRoomAction.OnRoomClicked(it))
                         }
                     )
                 }
