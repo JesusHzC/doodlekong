@@ -1,10 +1,10 @@
 package com.jesushz.doodlekong.drawing.data.network
 
 import com.jesushz.doodlekong.core.data.network.NetworkConstants
-import com.jesushz.doodlekong.core.data.network.ws.BaseModel
+import com.jesushz.doodlekong.core.data.network.ws.models.BaseModel
 import io.ktor.client.HttpClient
-import io.ktor.client.plugins.websocket.webSocketSession
-import io.ktor.client.request.url
+import io.ktor.client.plugins.websocket.webSocket
+import io.ktor.http.HttpMethod
 import io.ktor.websocket.Frame
 import io.ktor.websocket.WebSocketSession
 import io.ktor.websocket.close
@@ -25,8 +25,13 @@ class KtorRealTimeDrawingClient(
 
     override fun getBaseModel(): Flow<BaseModel> {
         return flow {
-            session = client.webSocketSession {
-                url(NetworkConstants.SOCKET_URL)
+            client.webSocket(
+                method = HttpMethod.Get,
+                host = NetworkConstants.SOCKET_HOST,
+                port = NetworkConstants.SOCKET_PORT,
+                path = NetworkConstants.SOCKET_ENDPOINT
+            ) {
+                session = this@webSocket
             }
             val baseModels = session!!
                 .incoming

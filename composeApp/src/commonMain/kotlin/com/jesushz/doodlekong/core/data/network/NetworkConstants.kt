@@ -5,7 +5,9 @@ object NetworkConstants {
     // Base URL of the server
     const val BASE_URL = "http://192.168.1.6:8080"
     // Socket URL of the server
-    const val SOCKET_URL = "http://192.168.1.6:8080/ws/draw"
+    const val SOCKET_HOST = "192.168.1.6"
+    const val SOCKET_ENDPOINT = "/ws/draw"
+    const val SOCKET_PORT = 8080
 
     // Endpoints of the server
     const val CREATE_ROOM_ENDPOINT = "/api/createRoom"
