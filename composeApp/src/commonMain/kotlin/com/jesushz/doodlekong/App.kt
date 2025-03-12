@@ -22,7 +22,7 @@ fun App() {
         val navController = rememberNavController()
 
         NavigationRoot(
-            navController = navController
+            navController = navController,
         )
     }
 }

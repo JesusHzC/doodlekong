@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 fun DoodleKongTextField(
     modifier: Modifier = Modifier,
     text: String,
-    label: String,
+    label: String = "",
     enabled: Boolean = true,
     textStyle: TextStyle = LocalTextStyle.current.copy(
         color = Color.Black,

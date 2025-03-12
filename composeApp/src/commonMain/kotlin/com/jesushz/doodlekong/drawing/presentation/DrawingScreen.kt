@@ -1,14 +1,14 @@
 package com.jesushz.doodlekong.drawing.presentation
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.jesushz.doodlekong.core.presentation.components.DoodleKongScaffold
+import com.jesushz.doodlekong.drawing.presentation.components.DrawScreen
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -27,18 +27,21 @@ private fun DrawingScreen(
     state: DrawingState,
     onAction: (DrawingAction) -> Unit,
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize(),
-        contentAlignment = Alignment.Center,
-    ) {
-        Column {
-            Text(
-                text = state.username,
-            )
-            Text(
-                text = state.roomName
-            )
-        }
+    DoodleKongScaffold { innerPadding ->
+        DrawScreen(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(vertical = 16.dp),
+            cutWord = "_ _ _ _ _ _ _ _ _ _ _",
+            chatText = "",
+            micIsAvailable = false,
+            chats = emptyList(),
+            onChatTextChanged = {},
+            onClearClick = {},
+            onSendClick = {},
+            onMicClick = {},
+            onPlayerClick = {}
+        )
     }
 }
