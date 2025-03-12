@@ -17,6 +17,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jesushz.doodlekong.core.presentation.ObserveAsEvents
+import com.jesushz.doodlekong.core.presentation.components.DoodlekongScaffold
 import com.jesushz.doodlekong.setup.presentation.components.DoodleKongTextField
 import com.jesushz.doodlekong.setup.presentation.select_room.components.EmptyRooms
 import com.jesushz.doodlekong.setup.presentation.select_room.components.LoadingAnimation
@@ -43,12 +45,14 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun SelectRoomScreenRoot(
     viewModel: SelectRoomViewModel = koinViewModel(),
-    snackBarHostState: SnackbarHostState,
     onNavigateToCreateRoom: (username: String) -> Unit,
     onNavigateToDrawingScreen: (username: String, roomName: String) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val scope = rememberCoroutineScope()
+    val snackBarHostState = remember {
+        SnackbarHostState()
+    }
     ObserveAsEvents(
         flow = viewModel.event
     ) { event ->
@@ -67,6 +71,7 @@ fun SelectRoomScreenRoot(
     }
     SelectRoomScreen(
         state = state,
+        snackBarHostState = snackBarHostState,
         onAction = { action ->
             when (action) {
                 SelectRoomAction.OnCreateRoomClicked -> {
@@ -81,101 +86,107 @@ fun SelectRoomScreenRoot(
 @Composable
 private fun SelectRoomScreen(
     state: SelectRoomState,
+    snackBarHostState: SnackbarHostState,
     onAction: (SelectRoomAction) -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(8.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            DoodleKongTextField(
-                text = state.searchRoom,
-                modifier = Modifier
-                    .weight(1f),
-                label = stringResource(Res.string.search_for_rooms),
-                onTextChanged = {
-                    onAction(SelectRoomAction.OnSearchRoomChanged(it))
-                }
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            IconButton(
-                onClick = {
-                    onAction(SelectRoomAction.OnReloadClicked)
-                }
-            ) {
-                Icon(
-                    painter = painterResource(Res.drawable.ic_refresh),
-                    contentDescription = stringResource(Res.string.refresh)
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(8.dp))
-        when {
-            state.isLoading -> {
-                LoadingAnimation(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                )
-            }
-            state.rooms.isNotEmpty() -> {
-                AnimatedVisibility(
-                    visible = state.rooms.isNotEmpty(),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                ) {
-                    RoomsList(
-                        rooms = state.rooms,
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        onRoomClick = {
-                            onAction(SelectRoomAction.OnRoomClicked(it))
-                        }
-                    )
-                }
-            }
-            else -> {
-                AnimatedVisibility(
-                    visible = state.rooms.isEmpty(),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                ) {
-                    EmptyRooms(
-                        modifier = Modifier
-                            .fillMaxSize()
-                    )
-                }
-            }
-        }
-        Spacer(modifier = Modifier.height(8.dp))
+    DoodlekongScaffold(
+        snackBarHostState = snackBarHostState
+    ) { innerPadding ->
         Column(
             modifier = Modifier
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(8.dp)
         ) {
-            Text(
-                text = stringResource(Res.string.or),
-                fontSize = 14.sp
-            )
-            TextButton(
-                onClick = {
-                    onAction(SelectRoomAction.OnCreateRoomClicked)
-                },
-                colors = ButtonDefaults.textButtonColors(
-                    contentColor = Color.Black
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                DoodleKongTextField(
+                    text = state.searchRoom,
+                    modifier = Modifier
+                        .weight(1f),
+                    label = stringResource(Res.string.search_for_rooms),
+                    onTextChanged = {
+                        onAction(SelectRoomAction.OnSearchRoomChanged(it))
+                    }
                 )
+                Spacer(modifier = Modifier.width(8.dp))
+                IconButton(
+                    onClick = {
+                        onAction(SelectRoomAction.OnReloadClicked)
+                    }
+                ) {
+                    Icon(
+                        painter = painterResource(Res.drawable.ic_refresh),
+                        contentDescription = stringResource(Res.string.refresh)
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            when {
+                state.isLoading -> {
+                    LoadingAnimation(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                    )
+                }
+                state.rooms.isNotEmpty() -> {
+                    AnimatedVisibility(
+                        visible = state.rooms.isNotEmpty(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                    ) {
+                        RoomsList(
+                            rooms = state.rooms,
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            onRoomClick = {
+                                onAction(SelectRoomAction.OnRoomClicked(it))
+                            }
+                        )
+                    }
+                }
+                else -> {
+                    AnimatedVisibility(
+                        visible = state.rooms.isEmpty(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                    ) {
+                        EmptyRooms(
+                            modifier = Modifier
+                                .fillMaxSize()
+                        )
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = stringResource(Res.string.create_room).uppercase(),
-                    fontSize = 16.sp
+                    text = stringResource(Res.string.or),
+                    fontSize = 18.sp
                 )
+                TextButton(
+                    onClick = {
+                        onAction(SelectRoomAction.OnCreateRoomClicked)
+                    },
+                    colors = ButtonDefaults.textButtonColors(
+                        contentColor = Color.Black
+                    )
+                ) {
+                    Text(
+                        text = stringResource(Res.string.create_room).uppercase(),
+                        fontSize = 20.sp
+                    )
+                }
             }
         }
     }

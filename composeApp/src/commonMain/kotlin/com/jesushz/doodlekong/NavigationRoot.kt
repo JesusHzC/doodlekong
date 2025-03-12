@@ -1,6 +1,5 @@
 package com.jesushz.doodlekong
 
-import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -16,34 +15,29 @@ import com.jesushz.doodlekong.util.Route
 @Composable
 fun NavigationRoot(
     navController: NavHostController,
-    startDestination: Route = Route.SetupGraph,
-    snackBarHostState: SnackbarHostState
+    startDestination: Route = Route.SetupGraph
 ) {
     NavHost(
         navController = navController,
         startDestination = startDestination,
     ) {
         setupGraph(
-            navController,
-            snackBarHostState
+            navController
         )
         drawingGraph(
-            navController,
-            snackBarHostState
+            navController
         )
     }
 }
 
 private fun NavGraphBuilder.setupGraph(
-    navController: NavHostController,
-    snackBarHostState: SnackbarHostState
+    navController: NavHostController
 ) {
     navigation<Route.SetupGraph>(
         startDestination = Route.Username
     ) {
         composable<Route.Username> {
             UsernameScreenRoot(
-                snackBarHostState = snackBarHostState,
                 navigateToSelectRoomEvent = { username ->
                     navController.navigate(
                         Route.SelectRoom(username)
@@ -54,7 +48,6 @@ private fun NavGraphBuilder.setupGraph(
 
         composable<Route.SelectRoom> {
             SelectRoomScreenRoot(
-                snackBarHostState = snackBarHostState,
                 onNavigateToCreateRoom = { username ->
                     navController.navigate(
                         Route.CreateRoom(username)
@@ -75,8 +68,7 @@ private fun NavGraphBuilder.setupGraph(
 }
 
 private fun NavGraphBuilder.drawingGraph(
-    navController: NavHostController,
-    snackBarHostState: SnackbarHostState
+    navController: NavHostController
 ) {
     navigation<Route.DrawingGraph>(
         startDestination = Route.Drawing(username = "", roomName = "")
