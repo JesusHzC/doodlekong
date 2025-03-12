@@ -48,7 +48,7 @@ class UsernameViewModel(
                 trimmedUsername.length > MAX_USERNAME_LENGTH -> {
                     _event.send(UsernameEvent.InputTooLongError)
                 }
-                else -> _event.send(UsernameEvent.NavigateToSelectRoomEvent(username))
+                else -> _event.send(UsernameEvent.NavigateToSelectRoomEvent(trimmedUsername))
             }
         }
     }

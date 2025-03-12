@@ -21,9 +21,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jesushz.doodlekong.core.presentation.ObserveAsEvents
-import com.jesushz.doodlekong.core.presentation.components.DoodlekongScaffold
-import com.jesushz.doodlekong.setup.presentation.components.DoodleKongTextField
-import com.jesushz.doodlekong.setup.presentation.username.components.NextButton
+import com.jesushz.doodlekong.core.presentation.components.DoodleKongButton
+import com.jesushz.doodlekong.core.presentation.components.DoodleKongScaffold
+import com.jesushz.doodlekong.core.presentation.components.DoodleKongTextField
 import com.jesushz.doodlekong.util.Constants
 import doodlekong.composeapp.generated.resources.Res
 import doodlekong.composeapp.generated.resources.choose_a_username
@@ -89,7 +89,7 @@ private fun UsernameScreen(
     snackBarHostState: SnackbarHostState,
     onAction: (UsernameAction) -> Unit
 ) {
-    DoodlekongScaffold(
+    DoodleKongScaffold(
         snackBarHostState = snackBarHostState
     ) { innerPadding ->
         Box(
@@ -133,7 +133,7 @@ private fun UsernameScreen(
                     }
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                NextButton(
+                DoodleKongButton(
                     text = stringResource(Res.string.next),
                     modifier = Modifier
                         .align(Alignment.End),

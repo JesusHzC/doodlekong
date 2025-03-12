@@ -26,8 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jesushz.doodlekong.core.presentation.ObserveAsEvents
-import com.jesushz.doodlekong.core.presentation.components.DoodlekongScaffold
-import com.jesushz.doodlekong.setup.presentation.components.DoodleKongTextField
+import com.jesushz.doodlekong.core.presentation.components.DoodleKongScaffold
+import com.jesushz.doodlekong.core.presentation.components.DoodleKongTextField
 import com.jesushz.doodlekong.setup.presentation.select_room.components.EmptyRooms
 import com.jesushz.doodlekong.setup.presentation.select_room.components.LoadingAnimation
 import com.jesushz.doodlekong.setup.presentation.select_room.components.RoomsList
@@ -89,7 +89,7 @@ private fun SelectRoomScreen(
     snackBarHostState: SnackbarHostState,
     onAction: (SelectRoomAction) -> Unit
 ) {
-    DoodlekongScaffold(
+    DoodleKongScaffold(
         snackBarHostState = snackBarHostState
     ) { innerPadding ->
         Column(

@@ -1,4 +1,4 @@
-package com.jesushz.doodlekong.setup.presentation.components
+package com.jesushz.doodlekong.core.presentation.components
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.LocalTextStyle
@@ -13,6 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.sp
@@ -22,6 +23,12 @@ fun DoodleKongTextField(
     modifier: Modifier = Modifier,
     text: String,
     label: String,
+    enabled: Boolean = true,
+    textStyle: TextStyle = LocalTextStyle.current.copy(
+        color = Color.Black,
+        fontSize = 20.sp
+    ),
+    trailingIcon: @Composable() (() -> Unit)? = null,
     onTextChanged: (String) -> Unit
 ) {
     var isFocused by remember { mutableStateOf(false) }
@@ -33,13 +40,10 @@ fun DoodleKongTextField(
             Text(
                 text = label,
                 color = Color.Black,
-                fontSize = if (isFocused) 12.sp else 18.sp
+                fontSize = if (isFocused) 12.sp else 20.sp
             )
         },
-        textStyle = LocalTextStyle.current.copy(
-            color = Color.Black,
-            fontSize = 18.sp
-        ),
+        textStyle = textStyle,
         singleLine = true,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text,
@@ -54,7 +58,13 @@ fun DoodleKongTextField(
             unfocusedBorderColor = Color.Black,
             cursorColor = Color.Black,
             focusedLabelColor = Color.Black,
-            unfocusedLabelColor = Color.Black
-        )
+            unfocusedLabelColor = Color.Black,
+            disabledTextColor = Color.Black,
+            disabledBorderColor = Color.Black,
+            disabledLabelColor = Color.Black,
+            disabledTrailingIconColor = Color.Black
+        ),
+        trailingIcon = trailingIcon,
+        enabled = enabled
     )
 }
