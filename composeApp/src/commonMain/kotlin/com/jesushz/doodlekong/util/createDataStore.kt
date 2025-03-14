@@ -4,6 +4,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import okio.Path.Companion.toPath
+import org.koin.core.module.Module
 
 typealias PrefsDataStore = DataStore<Preferences>
 
@@ -14,3 +15,5 @@ fun createDataStore(producePath: () -> String): PrefsDataStore {
 }
 
 internal const val DATA_STORE_FILE_NAME = "prefs.preferences_pb"
+
+expect val preferencesModule: Module

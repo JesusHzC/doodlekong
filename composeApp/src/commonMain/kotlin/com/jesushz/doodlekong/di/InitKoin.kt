@@ -2,6 +2,7 @@ package com.jesushz.doodlekong.di
 
 import com.jesushz.doodlekong.drawing.di.drawingModule
 import com.jesushz.doodlekong.setup.di.setupModule
+import com.jesushz.doodlekong.util.preferencesModule
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 
@@ -12,7 +13,8 @@ fun initKoin(config: KoinAppDeclaration? = null) {
             sharedModule,
             platformModule,
             setupModule,
-            drawingModule
+            drawingModule,
+            preferencesModule
         )
     }
 }
