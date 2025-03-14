@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun Modifier.speechBubble(
-    type: BubbleType = BubbleType.INCOMING,
+    bubbleType: BubbleType = BubbleType.INCOMING,
     cornerRadius: Dp = 10.dp,
     tipSize: Dp = 10.dp,
     borderColor: Color = Color.Black,
@@ -19,7 +19,7 @@ fun Modifier.speechBubble(
     val cornerRadiusPx = with(density) { cornerRadius.toPx() }
     val tipSizePx = with(density) { tipSize.toPx() }
 
-    val path = when (type) {
+    val path = when (bubbleType) {
         BubbleType.INCOMING -> pathIncoming(tipSizePx, cornerRadiusPx, size)
         BubbleType.OUTGOING -> pathOutgoing(tipSizePx, cornerRadiusPx, size)
     }

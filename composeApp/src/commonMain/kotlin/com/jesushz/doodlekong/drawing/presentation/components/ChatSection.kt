@@ -1,9 +1,12 @@
 package com.jesushz.doodlekong.drawing.presentation.components
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -19,14 +22,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jesushz.doodlekong.core.data.network.ws.models.ChatMessage
 import com.jesushz.doodlekong.core.presentation.components.DoodleKongTextField
+import com.jesushz.doodlekong.util.speechBubble
 import doodlekong.composeapp.generated.resources.Res
 import doodlekong.composeapp.generated.resources.ic_baseline_send_24
 import doodlekong.composeapp.generated.resources.ic_mic
 import doodlekong.composeapp.generated.resources.ic_mic_off
 import doodlekong.composeapp.generated.resources.ic_person
 import doodlekong.composeapp.generated.resources.ic_round_clear_24
+import doodlekong.composeapp.generated.resources.message
 import doodlekong.composeapp.generated.resources.mic
 import doodlekong.composeapp.generated.resources.players
+import doodlekong.composeapp.generated.resources.username
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -87,13 +93,18 @@ fun ChatSection(
             Spacer(modifier = Modifier.width(4.dp))
             LazyColumn(
                 modifier = Modifier
-                    .weight(1f)
+                    .weight(1f),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 items(
                     items = chats,
                     key = { it.hashCode() }
                 ) { chat ->
-
+                    ChatItem(
+                        modifier = Modifier
+                            .fillMaxWidth(0.8f),
+                        chat = chat
+                    )
                 }
             }
         }
@@ -139,5 +150,50 @@ internal fun ChatItem(
     modifier: Modifier = Modifier,
     chat: ChatMessage
 ) {
-
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.Bottom
+    ) {
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .speechBubble(),
+            contentAlignment = Alignment.CenterStart
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(
+                        start = 15.dp,
+                        end = 8.dp,
+                        top = 8.dp,
+                        bottom = 8.dp
+                    )
+            ) {
+                Text(
+                    text = stringResource(Res.string.username),
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = chat.from
+                )
+                Text(
+                    text = stringResource(Res.string.message),
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = chat.message
+                )
+            }
+        }
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(
+            text = chat.timestamp.toString(),
+            fontSize = 16.sp,
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+        )
+    }
 }
