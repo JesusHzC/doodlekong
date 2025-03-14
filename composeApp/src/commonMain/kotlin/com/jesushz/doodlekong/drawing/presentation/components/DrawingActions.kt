@@ -50,7 +50,7 @@ fun DrawingActions(
                     action.toDrawResource()?.let {
                         IconButton(
                             onClick = {
-                                actionSelected = DrawingActionType.UNDO
+                                onActionSelected(action)
                             }
                         ) {
                             Icon(
