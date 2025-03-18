@@ -50,4 +50,5 @@
     <string name="players">Players</string>
     <string name="mic">Microphone</string>
     <string name="message">Message</string>
+    <string name="undo">Undo</string>
 </resources>
