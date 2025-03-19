@@ -29,7 +29,7 @@ import com.jesushz.doodlekong.core.presentation.ObserveAsEvents
 import com.jesushz.doodlekong.core.presentation.components.DoodleKongScaffold
 import com.jesushz.doodlekong.core.presentation.components.DoodleKongTextField
 import com.jesushz.doodlekong.setup.presentation.select_room.components.EmptyRooms
-import com.jesushz.doodlekong.setup.presentation.select_room.components.LoadingAnimation
+import com.jesushz.doodlekong.core.presentation.components.LoadingAnimation
 import com.jesushz.doodlekong.setup.presentation.select_room.components.RoomsList
 import doodlekong.composeapp.generated.resources.Res
 import doodlekong.composeapp.generated.resources.create_room

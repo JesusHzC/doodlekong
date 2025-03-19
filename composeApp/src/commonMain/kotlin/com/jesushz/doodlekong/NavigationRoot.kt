@@ -83,7 +83,11 @@ private fun NavGraphBuilder.drawingGraph(
         startDestination = Route.Drawing(username = "", roomName = "")
     ) {
         composable<Route.Drawing> {
-            DrawingScreenRoot()
+            DrawingScreenRoot(
+                onNavigateBack = {
+                    navController.navigateUp()
+                }
+            )
         }
     }
 }

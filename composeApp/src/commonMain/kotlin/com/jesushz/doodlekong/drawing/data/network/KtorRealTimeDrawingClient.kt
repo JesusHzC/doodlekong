@@ -41,9 +41,6 @@ import io.ktor.websocket.WebSocketSession
 import io.ktor.websocket.close
 import io.ktor.websocket.readText
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.filterIsInstance
@@ -65,10 +62,6 @@ class KtorRealTimeDrawingClient(
 ): RealTimeDrawingClient {
 
     private var session: WebSocketSession? = null
-    private val sessionState = MutableStateFlow<WebSocketSession?>(null)
-
-    override fun observeSession(): StateFlow<WebSocketSession?> =
-        sessionState.asStateFlow()
 
     private val format by lazy {
         val module = SerializersModule {
@@ -97,12 +90,19 @@ class KtorRealTimeDrawingClient(
         format
     }
 
-    override fun getBaseModel(): Flow<BaseModel> {
+    override fun getBaseModel(
+        onConnectionError: (Throwable) -> Unit,
+        onConnectionSuccess: () -> Unit
+    ): Flow<BaseModel> {
         return flow {
             session = client.webSocketSession {
                 url(NetworkConstants.SOCKET_URL)
             }
-            sessionState.value = session
+            if (session == null) {
+                onConnectionError(Throwable("Couldn't establish a connection."))
+            } else {
+                onConnectionSuccess()
+            }
             val baseModels = session!!
                 .incoming
                 .consumeAsFlow()
@@ -154,7 +154,6 @@ class KtorRealTimeDrawingClient(
     override suspend fun close() {
         session?.close()
         session = null
-        sessionState.value = null
     }
 
     companion object {

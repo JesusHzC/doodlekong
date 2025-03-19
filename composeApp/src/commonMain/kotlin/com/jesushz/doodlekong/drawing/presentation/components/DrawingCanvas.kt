@@ -23,7 +23,7 @@ fun DrawingCanvas(
     modifier: Modifier = Modifier,
     paths: List<PathData>,
     currentPath: PathData?,
-    onDragStart: () -> Unit,
+    onDragStart: (Offset) -> Unit,
     onDragEnd: () -> Unit,
     onDrag: (Offset) -> Unit
 ) {
@@ -34,7 +34,7 @@ fun DrawingCanvas(
             .pointerInput(true) {
                 detectDragGestures(
                     onDragStart = {
-                        onDragStart()
+                        onDragStart(it)
                     },
                     onDragEnd = {
                         onDragEnd()
