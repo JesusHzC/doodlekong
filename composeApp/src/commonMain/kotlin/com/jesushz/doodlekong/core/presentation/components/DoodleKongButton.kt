@@ -17,15 +17,16 @@ fun DoodleKongButton(
     modifier: Modifier = Modifier,
     text: String,
     isLoading: Boolean = false,
+    isSelected: Boolean = false,
     onButtonClicked: () -> Unit
 ) {
     OutlinedButton(
         modifier = modifier,
         onClick = onButtonClicked,
         colors = ButtonDefaults.outlinedButtonColors(
-            contentColor = Color.Black,
-            backgroundColor = Color.Transparent,
-            disabledContentColor = Color.Black,
+            contentColor = if (isSelected) Color.White else Color.Black,
+            backgroundColor = if (isSelected) Color.Black else Color.Transparent,
+            disabledContentColor = if (isSelected) Color.White else Color.Black,
         ),
         border = ButtonDefaults.outlinedBorder.copy(
             width = 2.dp,
