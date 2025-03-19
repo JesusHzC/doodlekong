@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalResourceApi::class)
 
-package com.jesushz.doodlekong.setup.presentation.select_room.components
+package com.jesushz.doodlekong.core.presentation.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
