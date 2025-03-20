@@ -20,7 +20,7 @@ class PermissionsViewModel(
     var state by mutableStateOf(PermissionState.NotGranted)
         private set
 
-    init {
+    fun getPermissionState() {
         viewModelScope.launch {
             state = controller.getPermissionState(Permission.RECORD_AUDIO)
         }

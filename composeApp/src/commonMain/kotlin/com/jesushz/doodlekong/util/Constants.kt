@@ -22,4 +22,7 @@ object Constants {
     const val ERROR_TOO_MANY_REQUESTS = "Your quota seems to be exceeded."
     const val ERROR_SERIALIZATION = "Couldn't parse data."
 
+    // Language code
+    const val DEFAULT_LANGUAGE_CODE = "en"
+
 }

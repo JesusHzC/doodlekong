@@ -1,5 +1,6 @@
 package com.jesushz.doodlekong.drawing.presentation
 
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -43,6 +44,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -63,6 +65,10 @@ class DrawingViewModel(
     savedStateHandle: SavedStateHandle,
 ): ViewModel() {
 
+    private val voiceToTextViewModel by lazy {
+        VoiceToTextViewModel(voiceToText)
+    }
+
     private val _state = MutableStateFlow(DrawingState())
     val state = _state
         .onStart {
@@ -71,7 +77,7 @@ class DrawingViewModel(
         .stateIn(
             viewModelScope,
             started = SharingStarted.WhileSubscribed(5000L),
-            initialValue = _state.value
+            initialValue = DrawingState()
         )
 
     private val _event = Channel<DrawingEvent>()
@@ -87,6 +93,16 @@ class DrawingViewModel(
                 roomName = savedStateHandle.toRoute<Route.Drawing>().roomName
             )
         }
+        voiceToTextViewModel
+            .state
+            .onEach { state ->
+                _state.update {
+                    it.copy(
+                        message = state.spokenText
+                    )
+                }
+            }
+            .launchIn(viewModelScope)
     }
 
     fun onAction(action: DrawingAction) {
@@ -117,16 +133,24 @@ class DrawingViewModel(
                 )
                 sendChatMessage(chatMessage)
                 clearText()
+                voiceToTextViewModel.onEvent(VoiceToTextEvent.Reset)
             }
             DrawingAction.OnUndo -> onUndo()
             is DrawingAction.OnNewWordSelected -> onNewWordSelected(action.word)
             DrawingAction.OnStartRecording -> startRecording()
+            is DrawingAction.OnPermissionResult -> {
+                _state.update {
+                    it.copy(
+                        hasAudioPermission = action.isGranted
+                    )
+                }
+            }
             else -> Unit
         }
     }
 
     private fun startRecording() {
-
+        voiceToTextViewModel.onEvent(VoiceToTextEvent.StartRecording)
     }
 
     private fun onNewWordSelected(word: String) {

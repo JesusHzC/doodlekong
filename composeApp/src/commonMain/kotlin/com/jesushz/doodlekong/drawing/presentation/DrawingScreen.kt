@@ -17,6 +17,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.rememberDrawerState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -92,6 +93,13 @@ fun DrawingScreenRoot(
                 DrawingAction.OnPlayersClick -> {
                     scope.launch {
                         drawerState.open()
+                    }
+                }
+                DrawingAction.OnStartRecording -> {
+                    scope.launch {
+                        snackBarHostState.showSnackbar(
+                            message = "Start talking to record voice"
+                        )
                     }
                 }
                 else -> viewModel.onAction(action)
@@ -200,6 +208,19 @@ internal fun DrawScreen(
     BindEffect(controller)
     val permissionsViewModel = viewModel {
         PermissionsViewModel(controller)
+    }
+    LaunchedEffect(true) {
+        permissionsViewModel.getPermissionState()
+    }
+    LaunchedEffect(permissionsViewModel.state) {
+        when (permissionsViewModel.state) {
+            PermissionState.Granted -> {
+                onAction(DrawingAction.OnPermissionResult(true))
+            }
+            else -> {
+                onAction(DrawingAction.OnPermissionResult(false))
+            }
+        }
     }
     Column(
         modifier = modifier

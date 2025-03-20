@@ -28,7 +28,8 @@ data class DrawingState(
     val showDrawingActions: Boolean = false,
     val showSendChatMessage: Boolean = false,
     val showMic: Boolean = false,
-    val canvasEnabled: Boolean = false
+    val canvasEnabled: Boolean = false,
+    val hasAudioPermission: Boolean = false
 )
 
 data class PathData(
