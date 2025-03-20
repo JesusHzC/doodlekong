@@ -226,6 +226,7 @@ class DrawingViewModel(
 
     private fun onPathEnd() {
         val currentPathData = state.value.currentPath ?: return
+        if (currentPathData.path.isEmpty()) return
         _state.update {
             it.copy(
                 currentPath = null,

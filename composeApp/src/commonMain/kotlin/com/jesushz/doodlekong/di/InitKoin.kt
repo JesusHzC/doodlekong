@@ -1,5 +1,6 @@
 package com.jesushz.doodlekong.di
 
+import com.jesushz.doodlekong.drawing.data.voice_to_text.voiceToTextModule
 import com.jesushz.doodlekong.drawing.di.drawingModule
 import com.jesushz.doodlekong.setup.di.setupModule
 import com.jesushz.doodlekong.util.preferencesModule
@@ -14,7 +15,8 @@ fun initKoin(config: KoinAppDeclaration? = null) {
             platformModule,
             setupModule,
             drawingModule,
-            preferencesModule
+            preferencesModule,
+            voiceToTextModule
         )
     }
 }
