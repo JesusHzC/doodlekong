@@ -22,6 +22,7 @@ import kotlin.math.abs
 fun DrawingCanvas(
     modifier: Modifier = Modifier,
     paths: List<PathData>,
+    dragIsAvailable: Boolean = true,
     currentPath: PathData?,
     onDragStart: (Offset) -> Unit,
     onDragEnd: () -> Unit,
@@ -31,7 +32,7 @@ fun DrawingCanvas(
         modifier = modifier
             .clipToBounds()
             .background(Color.White)
-            .pointerInput(true) {
+            .pointerInput(dragIsAvailable) {
                 detectDragGestures(
                     onDragStart = {
                         onDragStart(it)

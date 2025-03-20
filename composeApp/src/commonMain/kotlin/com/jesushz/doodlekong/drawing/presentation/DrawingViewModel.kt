@@ -118,6 +118,7 @@ class DrawingViewModel(
             }
             DrawingAction.OnUndo -> onUndo()
             is DrawingAction.OnNewWordSelected -> onNewWordSelected(action.word)
+            else -> Unit
         }
     }
 

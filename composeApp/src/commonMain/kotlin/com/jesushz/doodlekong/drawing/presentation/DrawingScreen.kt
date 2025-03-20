@@ -9,9 +9,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.DrawerValue
 import androidx.compose.material.LinearProgressIndicator
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
+import androidx.compose.material.rememberDrawerState
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -50,6 +54,12 @@ fun DrawingScreenRoot(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val scope = rememberCoroutineScope()
+    val drawerState = rememberDrawerState(
+        initialValue = DrawerValue.Closed
+    )
+    val scaffoldState = rememberScaffoldState(
+        drawerState = drawerState
+    )
     val snackBarHostState = remember {
         SnackbarHostState()
     }
@@ -71,8 +81,18 @@ fun DrawingScreenRoot(
     }
     DrawingScreen(
         state = state,
+        scaffoldState = scaffoldState,
         snackBarHostState = snackBarHostState,
-        onAction = viewModel::onAction,
+        onAction = { action ->
+            when (action) {
+                DrawingAction.OnPlayersClick -> {
+                    scope.launch {
+                        drawerState.open()
+                    }
+                }
+                else -> viewModel.onAction(action)
+            }
+        }
     )
 }
 
@@ -80,10 +100,16 @@ fun DrawingScreenRoot(
 private fun DrawingScreen(
     state: DrawingState,
     snackBarHostState: SnackbarHostState,
+    scaffoldState: ScaffoldState,
     onAction: (DrawingAction) -> Unit,
 ) {
     DoodleKongScaffold(
-        snackBarHostState = snackBarHostState
+        scaffoldState = scaffoldState,
+        snackBarHostState = snackBarHostState,
+        showNavigationDrawer = true,
+        players = state.players,
+        modifier = Modifier
+            .fillMaxSize()
     ) { innerPadding ->
         when {
             state.showChooseWordScreen -> {
@@ -103,7 +129,7 @@ private fun DrawingScreen(
                         .padding(innerPadding)
                         .padding(vertical = 16.dp),
                     state = state,
-                    onAction = onAction
+                    onAction = onAction,
                 )
             }
         }
@@ -161,7 +187,7 @@ internal fun ChooseWordScreen(
 internal fun DrawScreen(
     modifier: Modifier,
     state: DrawingState,
-    onAction: (DrawingAction) -> Unit,
+    onAction: (DrawingAction) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -193,6 +219,7 @@ internal fun DrawScreen(
                     .weight(1f),
                 paths = state.paths,
                 currentPath = state.currentPath,
+                dragIsAvailable = state.canvasEnabled,
                 onDragStart = {
                     onAction(DrawingAction.OnNewPathStart(it))
                 },
@@ -240,7 +267,9 @@ internal fun DrawScreen(
                     onAction(DrawingAction.OnSendClick)
                 },
                 onMicClick = {},
-                onPlayerClick = {}
+                onPlayerClick = {
+                    onAction(DrawingAction.OnPlayersClick)
+                }
             )
         }
     }
