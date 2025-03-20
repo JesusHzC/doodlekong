@@ -12,3 +12,30 @@ This is a Kotlin Multiplatform project targeting Android, iOS.
 
 
 Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+
+# **DoodleKong**  
+
+A fast-paced drawing and guessing game.  
+
+## ✨ Features app
+✅ Real-time game
+✅ Multiplayer
+✅ Chat for players
+
+## **Demo**  
+
+<p align="center">
+  <img src="./demo/demo.gif" height="550">
+</p>
+
+## **Installation**  
+
+1. **Clone and run the server:**  
+   First, clone and start the server from the [DoodleKong Server](https://github.com/JesusHzC/ktor-doodlekong) repository.  
+
+2. **Update network constants:**  
+   In the `NetworkConstants` file, replace the following values with your local IP address:  
+
+   ```kotlin
+   const val BASE_URL = "http://YOUR_LOCAL_IP:8080"
+   const val SOCKET_URL = "ws://YOUR_LOCAL_IP:8080/ws/draw"
