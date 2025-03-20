@@ -30,6 +30,7 @@ import com.jesushz.doodlekong.core.data.network.ws.models.PlayersList
 import com.jesushz.doodlekong.core.data.network.ws.models.RoundDrawInfo
 import com.jesushz.doodlekong.drawing.data.mappers.toPathData
 import com.jesushz.doodlekong.drawing.data.network.RealTimeDrawingClient
+import com.jesushz.doodlekong.drawing.domain.voice_to_text.VoiceToTextParser
 import com.jesushz.doodlekong.util.Constants
 import com.jesushz.doodlekong.util.CoroutineTimer
 import com.jesushz.doodlekong.util.DispatcherProvider
@@ -58,6 +59,7 @@ class DrawingViewModel(
     private val drawingClient: RealTimeDrawingClient,
     private val dispatcherProvider: DispatcherProvider,
     private val clientId: String,
+    private val voiceToText: VoiceToTextParser,
     savedStateHandle: SavedStateHandle,
 ): ViewModel() {
 
@@ -118,8 +120,13 @@ class DrawingViewModel(
             }
             DrawingAction.OnUndo -> onUndo()
             is DrawingAction.OnNewWordSelected -> onNewWordSelected(action.word)
+            DrawingAction.OnStartRecording -> startRecording()
             else -> Unit
         }
+    }
+
+    private fun startRecording() {
+
     }
 
     private fun onNewWordSelected(word: String) {

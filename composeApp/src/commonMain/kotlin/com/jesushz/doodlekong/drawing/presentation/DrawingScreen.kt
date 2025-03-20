@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.fastForEachIndexed
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jesushz.doodlekong.core.data.network.ws.models.GameError
 import com.jesushz.doodlekong.core.presentation.ObserveAsEvents
 import com.jesushz.doodlekong.core.presentation.components.DoodleKongButton
@@ -38,6 +39,9 @@ import com.jesushz.doodlekong.drawing.data.models.drawingColors
 import com.jesushz.doodlekong.drawing.presentation.components.ChatSection
 import com.jesushz.doodlekong.drawing.presentation.components.DrawingCanvas
 import com.jesushz.doodlekong.drawing.presentation.components.DrawingControls
+import dev.icerock.moko.permissions.PermissionState
+import dev.icerock.moko.permissions.compose.BindEffect
+import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import doodlekong.composeapp.generated.resources.Res
 import doodlekong.composeapp.generated.resources.choose_your_word
 import doodlekong.composeapp.generated.resources.ic_happy_monkey
@@ -189,6 +193,14 @@ internal fun DrawScreen(
     state: DrawingState,
     onAction: (DrawingAction) -> Unit
 ) {
+    val factory = rememberPermissionsControllerFactory()
+    val controller = remember(factory) {
+        factory.createPermissionsController()
+    }
+    BindEffect(controller)
+    val permissionsViewModel = viewModel {
+        PermissionsViewModel(controller)
+    }
     Column(
         modifier = modifier
     ) {
@@ -255,8 +267,10 @@ internal fun DrawScreen(
                 username = state.username,
                 cutWord = state.cutWord,
                 chatText = state.message,
-                micIsAvailable = false,
+                micIsAvailable = permissionsViewModel.state == PermissionState.Granted,
                 chatObjects = state.chatObjects,
+                showSendChatMessage = state.showSendChatMessage,
+                showMic = state.showMic,
                 onChatTextChanged = {
                     onAction(DrawingAction.OnMessageChanged(it))
                 },
@@ -266,7 +280,19 @@ internal fun DrawScreen(
                 onSendClick = {
                     onAction(DrawingAction.OnSendClick)
                 },
-                onMicClick = {},
+                onMicClick = {
+                    when (permissionsViewModel.state) {
+                        PermissionState.Granted -> {
+                            onAction(DrawingAction.OnStartRecording)
+                        }
+                        PermissionState.DeniedAlways -> {
+                            controller.openAppSettings()
+                        }
+                        else -> {
+                            permissionsViewModel.provideOrRequestRecordAudioPermission()
+                        }
+                    }
+                },
                 onPlayerClick = {
                     onAction(DrawingAction.OnPlayersClick)
                 }

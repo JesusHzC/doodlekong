@@ -63,6 +63,8 @@ kotlin {
             implementation(libs.compottie.resources)
             implementation(libs.kermit)
             implementation(libs.date.time)
+            api(libs.moko.permissions)
+            api(libs.moko.permissions.compose)
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)

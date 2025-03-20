@@ -16,5 +16,6 @@ sealed interface DrawingAction {
     data object OnUndo: DrawingAction
     data class OnNewWordSelected(val word: String): DrawingAction
     data object OnPlayersClick: DrawingAction
+    data object OnStartRecording: DrawingAction
 
 }
